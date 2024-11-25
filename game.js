@@ -89,10 +89,31 @@ function drawSnake() {
     }
 }
 
+const bgImage = new Image();
+bgImage.src = 'assets/pattern.png';
+
+let pattern;
+
+bgImage.onload = () => {
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    const tileSize = 150;
+    tempCanvas.width = tileSize;
+    tempCanvas.height = tileSize;
+
+    tempCtx.drawImage(bgImage, 0, 0, tileSize, tileSize);
+
+    pattern = ctx.createPattern(tempCanvas, 'repeat');
+};
+
 function drawBackground() {
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (pattern) {
+        ctx.fillStyle = pattern;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 }
+
 
 function drawName() {
     const head = snake[0];
